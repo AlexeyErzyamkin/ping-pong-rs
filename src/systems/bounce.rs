@@ -64,7 +64,8 @@ impl<'a> System<'a> for BounceSystem {
                     let coeff = if diff.abs() < 0.3 {
                         0.
                     } else {
-                        diff / (PADDLE_HEIGHT / 2.0)
+                        // diff / (PADDLE_HEIGHT / 2.0)
+                        diff / PADDLE_HEIGHT
                     };
 
                     let angle = <f32 as Real>::pi() / 2.0 * coeff;
