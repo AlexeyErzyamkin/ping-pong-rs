@@ -5,7 +5,7 @@ use amethyst::{
     renderer::{
         DisplayConfig, DrawFlat2D, Pipeline, RenderBundle, Stage
     },
-    utils::application_root_dir,
+    // utils::application_root_dir,
     core::transform::{
         TransformBundle
     },
