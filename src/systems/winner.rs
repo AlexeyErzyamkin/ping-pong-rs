@@ -60,8 +60,8 @@ impl<'a> System<'a> for WinnerSystem {
             };
 
             if did_hit {
-                ball.velocity.x = BALL_VELOCITY_X;
-                ball.velocity.y = BALL_VELOCITY_Y;
+                ball.direction.x = BALL_VELOCITY_X;
+                ball.direction.y = BALL_VELOCITY_Y;
                 
                 transform.set_xyz(ARENA_WIDTH / 2.0, ARENA_HEIGHT / 2.0, 0.0);
 

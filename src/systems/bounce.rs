@@ -30,13 +30,18 @@ impl<'a> System<'a> for BounceSystem {
         ReadStorage<'a, Transform>
     );
 
-    fn run(&mut self, (mut balls, paddles, transforms): Self::SystemData) {
+    fn run(&mut self, (
+        mut balls,
+        paddles,
+        transforms
+    ): Self::SystemData)
+    {
         for (ball, ball_transform) in (&mut balls, &transforms).join() {
             let ball_x = ball_transform.translation().x;
             let ball_y = ball_transform.translation().y;
 
-            if (ball_y >= ARENA_HEIGHT - ball.radius && ball.velocity.y > 0.0) || (ball_y <= ball.radius && ball.velocity.y < 0.0) {
-                ball.velocity.y = -ball.velocity.y;
+            if (ball_y >= ARENA_HEIGHT - ball.radius && ball.direction.y > 0.0) || (ball_y <= ball.radius && ball.direction.y < 0.0) {
+                ball.direction.y = -ball.direction.y;
             }
 
             for (paddle, paddle_transform) in (&paddles, &transforms).join() {
@@ -55,11 +60,13 @@ impl<'a> System<'a> for BounceSystem {
                     paddle_corner_y + paddle.height + ball.radius);
 
                 let right_direction = match paddle.side {
-                    Side::Left => ball.velocity.x < 0.0,
-                    Side::Right => ball.velocity.x > 0.0
+                    Side::Left => ball.direction.x < 0.0,
+                    Side::Right => ball.direction.x > 0.0
                 };
 
                 if in_rect && right_direction {
+                    println!("Inside");
+
                     let diff = paddle_y - ball_y;
                     let coeff = if diff.abs() < 0.3 {
                         0.
@@ -85,8 +92,8 @@ impl<'a> System<'a> for BounceSystem {
                         }
                     };
 
-                    ball.velocity.x = normal.x * BALL_VELOCITY;
-                    ball.velocity.y = normal.y * BALL_VELOCITY;
+                    ball.direction.x = normal.x;
+                    ball.direction.y = normal.y;
 
                     // dbg!(diff);
                     // dbg!(ball.velocity.y);

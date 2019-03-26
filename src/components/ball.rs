@@ -22,21 +22,23 @@ use crate::{
     }
 };
 
-pub const BALL_VELOCITY: f32 = 20.0;
-pub const BALL_VELOCITY_X: f32 = 20.0;
+pub const BALL_VELOCITY: f32 = 30.0;
+pub const BALL_VELOCITY_X: f32 = 1.0;
 pub const BALL_VELOCITY_Y: f32 = 0.0;
 pub const BALL_RADIUS: f32 = 2.0;
 
 pub struct Ball {
-    pub velocity: Vector2<f32>,
+    pub direction: Vector2<f32>,
+    pub velocity: f32,
     pub radius: f32
 }
 
 impl Ball {
-    pub fn new(radius: f32, velocity_x: f32, velocity_y: f32) -> Self {
+    pub fn new(radius: f32, velocity: f32, velocity_x: f32, velocity_y: f32) -> Self {
         Ball {
             radius,
-            velocity: Vector2::new(velocity_x, velocity_y)
+            velocity,
+            direction: Vector2::new(velocity_x, velocity_y).normalize()
         }
     }
 }
@@ -57,7 +59,7 @@ pub fn initialize_ball(world: &mut World, sprite_sheet: SpriteSheetHandle) {
     world
         .create_entity()
         .with(sprite_render)
-        .with(Ball::new(BALL_RADIUS, BALL_VELOCITY_X, BALL_VELOCITY_Y))
+        .with(Ball::new(BALL_RADIUS, BALL_VELOCITY, BALL_VELOCITY_X, BALL_VELOCITY_Y))
         .with(transform)
         .build();
 }
