@@ -58,9 +58,10 @@ fn main() -> amethyst::Result<()> {
             .with_bundle(input_bundle)?
             .with_bundle(UiBundle::<String, String>::new())?
             .with(systems::PaddleSystem, "paddle_system", &["input_system"])
-            .with(systems::MoveBallSystem, "move_ball_system", &[])
+            .with(systems::RoundTimeSystem, "round_time", &[])
+            .with(systems::MoveBallSystem, "move_ball_system", &["round_time"])
             .with(systems::BounceSystem, "bounce_system", &["paddle_system", "move_ball_system"])
-            .with(systems::WinnerSystem, "winner_system", &["move_ball_system"]);
+            .with(systems::WinnerSystem, "winner_system", &["move_ball_system", "round_time"]);
 
     let mut game = Application::new("./", Pong, game_data)?;
 

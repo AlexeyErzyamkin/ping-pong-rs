@@ -8,7 +8,7 @@ use amethyst::{
 
 use crate::{
     pong::{
-        ARENA_WIDTH, ARENA_HEIGHT, ScoreBoard, ScoreText
+        ARENA_WIDTH, ARENA_HEIGHT, ScoreBoard, ScoreText, RoundTime
     },
     components::{
         Ball, BALL_VELOCITY_X, BALL_VELOCITY_Y
@@ -23,7 +23,8 @@ impl<'a> System<'a> for WinnerSystem {
         WriteStorage<'a, Transform>,
         WriteStorage<'a, UiText>,
         Write<'a, ScoreBoard>,
-        ReadExpect<'a, ScoreText>
+        ReadExpect<'a, ScoreText>,
+        Write<'a, RoundTime>
     );
 
     fn run(&mut self, (
@@ -31,7 +32,8 @@ impl<'a> System<'a> for WinnerSystem {
         mut transforms,
         mut ui_texts,
         mut scoreboard,
-        scoretext
+        scoretext,
+        mut round_time
     ): Self::SystemData)
     {
         for (ball, transform) in (&mut balls, &mut transforms).join() {
@@ -65,6 +67,7 @@ impl<'a> System<'a> for WinnerSystem {
                 
                 transform.set_xyz(ARENA_WIDTH / 2.0, ARENA_HEIGHT / 2.0, 0.0);
 
+                round_time.time = 0.0;
                 println!("Score: | {:^3} | {:^3} |", scoreboard.score_left, scoreboard.score_right);
             }
         }

@@ -35,6 +35,11 @@ pub struct ScoreText {
     pub p2_score: Entity
 }
 
+#[derive(Default)]
+pub struct RoundTime {
+    pub time: f32
+}
+
 pub struct Pong;
 
 impl SimpleState for Pong {
@@ -47,6 +52,8 @@ impl SimpleState for Pong {
         components::initialize_paddles(world, sprite_sheet_handle);
         initialize_score_board(world);
         initialize_camera(world);
+
+        world.add_resource(RoundTime {time: 0.0})
     }
 }
 

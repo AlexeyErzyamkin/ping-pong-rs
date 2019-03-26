@@ -1,6 +1,3 @@
-extern crate amethyst;
-//extern crate nalgebra as na;
-
 use amethyst::{
     core::{
         transform::Transform
