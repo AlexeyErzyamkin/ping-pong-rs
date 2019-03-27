@@ -14,7 +14,7 @@ use nalgebra::{
 use crate::{
     pong::ARENA_HEIGHT,
     components::{
-        Ball, Paddle, PADDLE_HEIGHT, Side, BALL_VELOCITY
+        Ball, Paddle, PADDLE_HEIGHT, Side
     }
 };
 
