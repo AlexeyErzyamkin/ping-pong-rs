@@ -1,20 +1,16 @@
-extern crate amethyst;
-extern crate nalgebra;
-
 use amethyst::{
     prelude::*,
     renderer::{
         SpriteSheetHandle, SpriteRender
     },
-    core::transform::{
-        Transform
+    core::{
+        transform::Transform,
+        nalgebra::Vector2
     },
     ecs::prelude::{
         Component, DenseVecStorage
     }
 };
-
-use nalgebra::base::Vector2;
 
 use crate::{
     pong::{

@@ -1,14 +1,13 @@
 use amethyst::{
     core::{
-        transform::Transform
+        transform::Transform,
+        nalgebra::{
+            Vector2, Rotation2, Real
+        }
     },
     ecs::{
         System, WriteStorage, ReadStorage, Join
     }
-};
-
-use nalgebra::{
-    Vector2, Rotation2, Real
 };
 
 use crate::{
@@ -91,19 +90,6 @@ impl<'a> System<'a> for BounceSystem {
 
                     ball.direction.x = normal.x;
                     ball.direction.y = normal.y;
-
-                    // dbg!(diff);
-                    // dbg!(ball.velocity.y);
-
-                    // let mut v = ball.velocity.clone();
-                    // v.apply(|val| val * 2.0);
-                    // let dot_product = v.dot(&normal);
-                    // let length = normal.norm_squared();
-
-                    // let r = ball.velocity - (dot_product / length) * normal;
-
-                    // ball.velocity.x = r.x;
-                    // ball.velocity.y = r.y;
                 }
             }
         }
