@@ -8,12 +8,14 @@ use amethyst::{
 
 use crate::{
     pong::{
-        ARENA_WIDTH, ARENA_HEIGHT, ScoreBoard, ScoreText, RoundTime
+        ARENA_WIDTH, ARENA_HEIGHT, ScoreBoard, ScoreText, GameSession
     },
     components::{
         Ball, BALL_VELOCITY_X, BALL_VELOCITY_Y
     }
 };
+
+pub const MAX_SCORE: i32 = 10;
 
 pub struct WinnerSystem;
 
@@ -24,7 +26,7 @@ impl<'a> System<'a> for WinnerSystem {
         WriteStorage<'a, UiText>,
         Write<'a, ScoreBoard>,
         ReadExpect<'a, ScoreText>,
-        Write<'a, RoundTime>
+        Write<'a, GameSession>
     );
 
     fn run(&mut self, (
@@ -33,7 +35,7 @@ impl<'a> System<'a> for WinnerSystem {
         mut ui_texts,
         mut scoreboard,
         scoretext,
-        mut round_time
+        mut game_session
     ): Self::SystemData)
     {
         for (ball, transform) in (&mut balls, &mut transforms).join() {
@@ -67,7 +69,9 @@ impl<'a> System<'a> for WinnerSystem {
                 
                 transform.set_xyz(ARENA_WIDTH / 2.0, ARENA_HEIGHT / 2.0, 0.0);
 
-                round_time.time = 0.0;
+                game_session.round_num += 1;
+                game_session.round_time = 0.0;
+
                 println!("Score: | {:^3} | {:^3} |", scoreboard.score_left, scoreboard.score_right);
             }
         }

@@ -1,5 +1,3 @@
-extern crate amethyst;
-
 use amethyst::{
     prelude::*,
     renderer::{
@@ -36,9 +34,24 @@ pub struct ScoreText {
 }
 
 #[derive(Default)]
-pub struct RoundTime {
-    pub time: f32
+pub struct GameSession {
+    pub round_num: i32,
+    pub round_time: f32
 }
+
+impl GameSession {
+    pub fn new() -> Self {
+        GameSession {
+            round_num: 0,
+            round_time: 0.0
+        }
+    }
+}
+
+// #[derive(Default)]
+// pub struct RoundTime {
+//     pub time: f32
+// }
 
 pub struct Pong;
 
@@ -53,7 +66,7 @@ impl SimpleState for Pong {
         initialize_score_board(world);
         initialize_camera(world);
 
-        world.add_resource(RoundTime {time: 0.0})
+        world.add_resource(GameSession::new())
     }
 }
 

@@ -6,18 +6,18 @@ use amethyst::{
 };
 
 use crate::pong::{
-    RoundTime
+    GameSession
 };
 
 pub struct RoundTimeSystem;
 
 impl <'a> System<'a> for RoundTimeSystem {
     type SystemData = (
-        Write<'a, RoundTime>,
+        Write<'a, GameSession>,
         Read<'a, Time>
     );
 
-    fn run(&mut self, (mut round_time, time): Self::SystemData) {
-        round_time.time += time.delta_seconds();
+    fn run(&mut self, (mut game_session, time): Self::SystemData) {
+        game_session.round_time += time.delta_seconds();
     }
 }

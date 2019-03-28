@@ -61,8 +61,6 @@ impl<'a> System<'a> for BounceSystem {
                 };
 
                 if in_rect && right_direction {
-                    println!("Inside");
-
                     let diff = paddle_y - ball_y;
                     let coeff = if diff.abs() < 0.3 {
                         0.
