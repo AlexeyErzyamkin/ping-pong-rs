@@ -11,7 +11,7 @@ use amethyst::{
 };
 
 use crate::{
-    pong::ARENA_HEIGHT,
+    states::ARENA_HEIGHT,
     components::{
         Ball, Paddle, PADDLE_HEIGHT, Side
     }

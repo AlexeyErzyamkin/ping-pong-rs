@@ -7,7 +7,7 @@ use amethyst::{
 };
 
 use crate::{
-    pong::{
+    states::{
         ARENA_WIDTH, ARENA_HEIGHT, ScoreBoard, ScoreText, GameSession
     },
     components::{

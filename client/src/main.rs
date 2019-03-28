@@ -17,10 +17,10 @@ use amethyst::{
 
 mod components;
 mod systems;
-mod pong;
+mod states;
 
-use pong::{
-    Pong
+use states::{
+    GameplayState
 };
 
 fn app_path(file_name: &str) -> String {
@@ -63,7 +63,7 @@ fn main() -> amethyst::Result<()> {
             .with(systems::BounceSystem, "bounce_system", &["paddle_system", "move_ball_system"])
             .with(systems::WinnerSystem, "winner_system", &["move_ball_system", "round_time"]);
 
-    let mut game = Application::new("./", Pong, game_data)?;
+    let mut game = Application::new("./", GameplayState, game_data)?;
 
     game.run();
 

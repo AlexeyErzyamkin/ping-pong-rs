@@ -5,7 +5,7 @@ use amethyst::{
     core::timing::Time
 };
 
-use crate::pong::{
+use crate::states::{
     GameSession
 };
 

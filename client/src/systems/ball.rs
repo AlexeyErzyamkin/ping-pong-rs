@@ -12,7 +12,7 @@ use crate::{
     components::{
         Ball
     },
-    pong::GameSession
+    states::GameSession
 };
 
 pub struct MoveBallSystem;

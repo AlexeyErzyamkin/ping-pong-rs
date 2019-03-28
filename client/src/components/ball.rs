@@ -13,7 +13,7 @@ use amethyst::{
 };
 
 use crate::{
-    pong::{
+    states::{
         ARENA_HEIGHT, ARENA_WIDTH
     }
 };

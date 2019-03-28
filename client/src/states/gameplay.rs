@@ -48,14 +48,9 @@ impl GameSession {
     }
 }
 
-// #[derive(Default)]
-// pub struct RoundTime {
-//     pub time: f32
-// }
+pub struct GameplayState;
 
-pub struct Pong;
-
-impl SimpleState for Pong {
+impl SimpleState for GameplayState {
     fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
         let world = data.world;
 
