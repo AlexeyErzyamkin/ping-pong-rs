@@ -5,4 +5,7 @@ authors = []
 edition = "2018"
 
 [dependencies]
+network = { path = "network", version = "0.1.0" }
+
 amethyst = "0.10"
+tokio = "0.1"

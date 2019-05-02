@@ -5,21 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Network",
+            "name": "Client",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/network/target/debug/network.exe",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/network",
-            "environment": [],
-            "externalConsole": true
-        },
-        {
-            "name": "Debug",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/target/debug/pong.exe",
+            "program": "${workspaceFolder}/target/debug/client.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

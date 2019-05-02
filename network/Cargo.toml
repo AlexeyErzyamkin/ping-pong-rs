@@ -1,0 +1,9 @@
+[package]
+name = "network"
+version = "0.1.0"
+authors = ["AlexeyErzyamkin <aerzyamkin@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+tokio = "0.1"
+futures = "0.1"
