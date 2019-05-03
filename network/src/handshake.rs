@@ -23,6 +23,12 @@ pub enum HandshakeResult {
     Failed
 }
 
+#[derive(Debug)]
+pub enum HandshakeError {
+    InvalidData,
+    NetworkError
+}
+
 //pub fn new2(stream: TcpStream) -> impl Future<Item = HandshakeResult, Error = io::Error> {
 //    io::write_all(stream, HANDSHAKE_STR)
 //        .and_then(|(stream, _)| {

@@ -4,11 +4,11 @@ use tokio::{
     io
 };
 
-use futures::future::ok;
+use futures::future;
 
-use crate::handshake::{HandshakeResult, HANDSHAKE_LEN, HANDSHAKE_STR, HANDSHAKE_OK, HANDSHAKE_FAIL};
+use crate::handshake::{HandshakeResult, HandshakeError, HANDSHAKE_LEN, HANDSHAKE_STR, HANDSHAKE_OK, HANDSHAKE_FAIL};
 
-pub fn new(stream: TcpStream) -> impl Future<Item = (TcpStream, HandshakeResult), Error = io::Error> {
+pub fn new(stream: TcpStream) -> impl Future<Item = TcpStream, Error = HandshakeError> {
     io::read_exact(stream, vec![0; HANDSHAKE_LEN])
         .and_then(|(stream, buf)| {
             let (result, response) = if buf == HANDSHAKE_STR.as_bytes() {
@@ -18,11 +18,24 @@ pub fn new(stream: TcpStream) -> impl Future<Item = (TcpStream, HandshakeResult)
             };
 
             let next = io::write_all(stream, response)
-                .join(ok(result));
+                .join(future::ok(result));
 
             next
         })
-        .map(|((stream, _), result)| {
-            (stream, result)
+        .map(|((stream, _), result)| (stream, result))
+        .then(|result| {
+            let next = match result {
+                Ok((stream, hr)) => {
+                    match hr {
+                        HandshakeResult::Ok => future::ok(stream),
+                        HandshakeResult::Failed => future::err(HandshakeError::InvalidData)
+                    }
+                },
+                Err(_) => {
+                    future::err(HandshakeError::NetworkError)
+                }
+            };
+
+            next
         })
 }

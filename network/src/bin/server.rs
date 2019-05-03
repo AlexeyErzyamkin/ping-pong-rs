@@ -20,7 +20,7 @@ fn main() {
             println!("Connected");
 
             let client = handshake::new(stream)
-                .map(|(_stream, result)| println!("Done: {:?}", result))
+                .map(|_stream| println!("Done"))
                 .map_err(|err| eprintln!("HS Error: {:?}", err));
 
             tokio::spawn(client);

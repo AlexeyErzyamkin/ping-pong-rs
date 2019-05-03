@@ -1,13 +1,18 @@
 use tokio::{
     prelude::*,
-    net::TcpStream,
+    net::{TcpStream, tcp::ConnectFuture},
     io
 };
 
-use crate::handshake::{HandshakeResult, HANDSHAKE_STR, HANDSHAKE_OK, HANDSHAKE_RESULT_LEN};
+use futures::future;
 
-pub fn new(stream: TcpStream) -> impl Future<Item = (TcpStream, HandshakeResult), Error = io::Error> {
-    io::write_all(stream, HANDSHAKE_STR)
+use crate::handshake::{HandshakeResult, HandshakeError, HANDSHAKE_STR, HANDSHAKE_OK, HANDSHAKE_RESULT_LEN};
+
+pub fn new(connect: ConnectFuture) -> impl Future<Item = TcpStream, Error = HandshakeError> {
+    connect
+        .and_then(|stream| {
+            io::write_all(stream, HANDSHAKE_STR)
+        })
         .and_then(|(stream, _)| {
             io::read_exact(stream, vec![0; HANDSHAKE_RESULT_LEN])
         })
@@ -19,5 +24,18 @@ pub fn new(stream: TcpStream) -> impl Future<Item = (TcpStream, HandshakeResult)
             };
 
             (stream, result)
+        })
+        .then(|result| {
+            let next = match result {
+                Ok((stream, hr)) => {
+                    match hr {
+                        HandshakeResult::Ok => future::ok(stream),
+                        HandshakeResult::Failed => future::err(HandshakeError::InvalidData)
+                    }
+                },
+                Err(_) => future::err(HandshakeError::NetworkError)
+            };
+
+            next
         })
 }
