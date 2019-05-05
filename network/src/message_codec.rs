@@ -13,7 +13,7 @@ use tokio::{
 use bytes::{BytesMut, BufMut};
 
 use byteorder::{
-    NetworkEndian, ByteOrder,
+    BigEndian, ByteOrder,
 };
 
 pub struct MessageCodec;
@@ -24,7 +24,7 @@ impl Decoder for MessageCodec {
 
     fn decode(&mut self, src: &mut BytesMut) -> Result<Option<Self::Item>, Self::Error> {
         if src.len() > 2 {
-            let len = NetworkEndian::read_u16(&src[..2]) as usize;
+            let len = BigEndian::read_u16(&src[..2]) as usize;
 
             let final_len = (2 + len) as usize;
             if src.len() >= final_len {
@@ -59,8 +59,7 @@ impl Encoder for MessageCodec {
 
         dst.reserve(full_len);
 
-        NetworkEndian::write_u16(dst, len);
-
+        dst.put_u16_be(len);
         dst.put(item);
 
         Ok(())

@@ -3,11 +3,14 @@ extern crate tokio;
 
 use tokio::{
     prelude::*,
-    net::TcpListener
+    net::TcpListener,
+    codec::Framed,
+    io
 };
 
 use network::{
-    server::handshake
+    server::handshake,
+    MessageCodec,
 };
 
 fn main() {
@@ -20,11 +23,19 @@ fn main() {
             println!("Connected");
 
             let client = handshake::new(socket)
-//                .and_then(|socket| {
-//                    let (read_socket, write_socket) = socket.split();
-//
-//
-//                })
+                .map_err(|e| {
+                    eprintln!("Handshake failed: {:?}", e);
+
+                    io::Error::from(io::ErrorKind::InvalidData)
+                })
+                .and_then(|socket| {
+                    let framed_socket = Framed::new(socket, MessageCodec);
+                    framed_socket.for_each(|value| {
+                        println!("{}", value);
+
+                        Ok(())
+                    })
+                })
                 .map(|_stream| println!("Done"))
                 .map_err(|err| eprintln!("HS Error: {:?}", err));
 
