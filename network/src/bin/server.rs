@@ -3,7 +3,7 @@ extern crate tokio;
 
 use tokio::{
     prelude::*,
-    net::TcpListener,
+    net::TcpListener
 };
 
 use network::{
@@ -16,10 +16,15 @@ fn main() {
 
     let server = listener.incoming()
         .map_err(|error| eprintln!("Error receive connection: {:?}", error))
-        .for_each(|stream| {
+        .for_each(|socket| {
             println!("Connected");
 
-            let client = handshake::new(stream)
+            let client = handshake::new(socket)
+//                .and_then(|socket| {
+//                    let (read_socket, write_socket) = socket.split();
+//
+//
+//                })
                 .map(|_stream| println!("Done"))
                 .map_err(|err| eprintln!("HS Error: {:?}", err));
 
