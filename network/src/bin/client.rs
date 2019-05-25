@@ -23,13 +23,14 @@ fn main() {
     let (tx, rx) = mpsc::channel(100);
 
     thread::spawn(move || {
+        let mut tx = tx;
         loop {
             let mut input = String::new();
 
             if let Ok(size) = std::io::stdin().read_line(&mut input) {
                 if size > 0 {
-                    tx.clone()
-                        .send(input)
+                    tx = tx
+                        .send(input.trim_end().to_string())
                         .wait()
                         .unwrap();
                 }
@@ -46,10 +47,17 @@ fn main() {
         })
         .and_then(move |socket| {
             let framed = Framed::new(socket, MessageCodec);
+//            let (reader, writer) = Framed::new(socket, MessageCodec).split();
 
             let sink = rx
                 .forward(framed.sink_map_err(|e| eprintln!("{}", e)))
                 .map(|_| ());
+
+//            let incoming = reader.for_each(|line| {
+//                println!("{}", line);
+//
+//                Ok(())
+//            });
 
             tokio::spawn(sink);
 

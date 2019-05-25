@@ -1,9 +1,6 @@
-extern crate futures;
-extern crate tokio;
-
 use tokio::{
     prelude::*,
-    net::TcpListener,
+    net::{TcpListener, TcpStream},
     codec::Framed,
     io
 };
@@ -12,6 +9,10 @@ use network::{
     server::handshake,
     MessageCodec,
 };
+
+struct Peer {
+    socket: TcpStream,
+}
 
 fn main() {
     let addr = "127.0.0.1:33333".parse().unwrap();
@@ -36,8 +37,8 @@ fn main() {
                         Ok(())
                     })
                 })
-                .map(|_stream| println!("Done"))
-                .map_err(|err| eprintln!("HS Error: {:?}", err));
+                .map(|_| println!("Done"))
+                .map_err(|err| eprintln!("Error: {:?}", err));
 
             tokio::spawn(client);
 

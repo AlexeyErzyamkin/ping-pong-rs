@@ -1,11 +1,8 @@
-[package]
-name = "pong"
-version = "0.1.0"
-authors = []
-edition = "2018"
+[workspace]
 
-[dependencies]
-network = { path = "network", version = "0.1.0" }
-
-amethyst = "0.10"
-tokio = "0.1"
+members = [
+    "client",
+    "network",
+    "battle",
+    "meta"
+]

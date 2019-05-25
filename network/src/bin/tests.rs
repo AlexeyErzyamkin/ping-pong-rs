@@ -1,5 +1,5 @@
-extern crate tokio;
-extern crate futures;
+//extern crate tokio;
+//extern crate futures;
 
 use futures::{stream, Future, Stream, Sink};
 use futures::future::lazy;

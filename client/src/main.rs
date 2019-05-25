@@ -1,4 +1,4 @@
-extern crate amethyst;
+//extern crate amethyst;
 
 use amethyst::{
     prelude::*,
