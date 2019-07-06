@@ -21,16 +21,18 @@ use crate::{
 pub const BALL_VELOCITY: f32 = 30.0;
 pub const BALL_VELOCITY_X: f32 = 1.0;
 pub const BALL_VELOCITY_Y: f32 = 0.0;
-pub const BALL_RADIUS: f32 = 2.0;
+pub const BALL_RADIUS: BallRadius = BallRadius(2.0);
+
+pub struct BallRadius(pub f32);
 
 pub struct Ball {
     pub direction: Vector2<f32>,
     pub velocity: f32,
-    pub radius: f32
+    pub radius: BallRadius
 }
 
 impl Ball {
-    pub fn new(radius: f32, velocity: f32, velocity_x: f32, velocity_y: f32) -> Self {
+    pub fn new(radius: BallRadius, velocity: f32, velocity_x: f32, velocity_y: f32) -> Self {
         Ball {
             radius,
             velocity,

@@ -1,8 +1,9 @@
 [workspace]
 
 members = [
-    "client",
+    "pong",
     "network",
+    "network2",
     "battle",
     "meta"
 ]

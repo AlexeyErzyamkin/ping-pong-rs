@@ -18,6 +18,7 @@ use amethyst::{
 mod components;
 mod systems;
 mod states;
+mod measures;
 
 use states::{
     GameplayState

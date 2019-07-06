@@ -43,23 +43,31 @@ fn main() {
         .map_err(|e| {
             eprintln!("Handshake error: {:?}", e);
 
+            // Separate logic of mapping error
             io::Error::from(io::ErrorKind::InvalidData)
         })
         .and_then(move |socket| {
             let framed = Framed::new(socket, MessageCodec);
-//            let (reader, writer) = Framed::new(socket, MessageCodec).split();
+            let (reader, writer) = framed.split();
 
             let sink = rx
-                .forward(framed.sink_map_err(|e| eprintln!("{}", e)))
+                .forward(reader.sink_map_err(|e| eprintln!("{}", e)))
                 .map(|_| ());
+                // .map_err(|_| io::Error::from(io::ErrorKind::InvalidData));
 
-//            let incoming = reader.for_each(|line| {
-//                println!("{}", line);
-//
-//                Ok(())
-//            });
+            // let write = writer
+            //     .forward(tx.sink_map_err(|e| eprintln!("{}", e)))
+            //     .map_err(|_| io::ErrorKind::InvalidData);
+
+        //    let incoming = writer.for_each(|line| {
+        //        println!("{}", line);
+
+        //        Ok(())
+        //    });
 
             tokio::spawn(sink);
+            // let read_write = sink.select(incoming);
+            // tokio::spawn(read_write);
 
             Ok(())
         })

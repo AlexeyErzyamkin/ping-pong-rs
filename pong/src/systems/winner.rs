@@ -41,7 +41,7 @@ impl<'a> System<'a> for WinnerSystem {
         for (ball, transform) in (&mut balls, &mut transforms).join() {
             let ball_x = transform.translation().x;
 
-            let did_hit = if ball_x <= ball.radius {
+            let did_hit = if ball_x <= ball.radius.0 {
                 scoreboard.score_right = (scoreboard.score_right + 1).min(999);
 
                 if let Some(text) = ui_texts.get_mut(scoretext.p2_score) {
@@ -50,7 +50,7 @@ impl<'a> System<'a> for WinnerSystem {
 
                 true
             }
-            else if ball_x >= ARENA_WIDTH - ball.radius {
+            else if ball_x >= ARENA_WIDTH - ball.radius.0 {
                 scoreboard.score_left = (scoreboard.score_left + 1).min(999);
 
                 if let Some(text) = ui_texts.get_mut(scoretext.p1_score) {

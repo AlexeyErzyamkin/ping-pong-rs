@@ -36,7 +36,7 @@ impl<'a> System<'a> for BounceSystem {
             let ball_x = ball_transform.translation().x;
             let ball_y = ball_transform.translation().y;
 
-            if (ball_y >= ARENA_HEIGHT - ball.radius && ball.direction.y > 0.0) || (ball_y <= ball.radius && ball.direction.y < 0.0) {
+            if (ball_y >= ARENA_HEIGHT - ball.radius.0 && ball.direction.y > 0.0) || (ball_y <= ball.radius.0 && ball.direction.y < 0.0) {
                 ball.direction.y = -ball.direction.y;
             }
 
@@ -50,10 +50,10 @@ impl<'a> System<'a> for BounceSystem {
                 let in_rect = point_in_rect(
                     ball_x,
                     ball_y,
-                    paddle_corner_x - ball.radius,
-                    paddle_corner_y - ball.radius,
-                    paddle_corner_x + paddle.width + ball.radius,
-                    paddle_corner_y + paddle.height + ball.radius);
+                    paddle_corner_x - ball.radius.0,
+                    paddle_corner_y - ball.radius.0,
+                    paddle_corner_x + paddle.width + ball.radius.0,
+                    paddle_corner_y + paddle.height + ball.radius.0);
 
                 let right_direction = match paddle.side {
                     Side::Left => ball.direction.x < 0.0,

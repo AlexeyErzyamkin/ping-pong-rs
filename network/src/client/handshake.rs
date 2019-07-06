@@ -1,5 +1,3 @@
-//use std::time::Duration;
-
 use tokio::{
     prelude::*,
     net::{TcpStream, tcp::ConnectFuture},
@@ -8,7 +6,13 @@ use tokio::{
 
 use futures::future;
 
-use crate::handshake::{HandshakeResult, HandshakeError, HANDSHAKE_STR, HANDSHAKE_OK, HANDSHAKE_RESULT_LEN};
+use crate::handshake::{
+    HandshakeResult,
+    HandshakeError,
+    HANDSHAKE_STR,
+    HANDSHAKE_OK,
+    HANDSHAKE_RESULT_LEN
+};
 
 pub fn new(connect: ConnectFuture) -> impl Future<Item = TcpStream, Error = HandshakeError> {
     connect

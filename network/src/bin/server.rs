@@ -30,8 +30,10 @@ fn main() {
                     io::Error::from(io::ErrorKind::InvalidData)
                 })
                 .and_then(|socket| {
-                    let framed_socket = Framed::new(socket, MessageCodec);
-                    framed_socket.for_each(|value| {
+                    let framed = Framed::new(socket, MessageCodec);
+                    let (reader, writer) = framed.split();
+
+                    writer.for_each(|value| {
                         println!("{}", value);
 
                         Ok(())

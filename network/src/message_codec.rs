@@ -1,5 +1,5 @@
 use std::{
-    str::from_utf8,
+    str,
     convert::TryFrom,
 };
 
@@ -30,7 +30,7 @@ impl Decoder for MessageCodec {
             if src.len() >= final_len {
                 let msg = src.split_to(final_len);
 
-                match from_utf8(&msg[2..]) {
+                match str::from_utf8(&msg[2..]) {
                     Ok(line) => return Ok(Some(line.to_string())),
                     Err(err) => {
                         eprintln!("UTF8 Error: {:?}", err);
